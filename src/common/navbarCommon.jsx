@@ -7,6 +7,8 @@ export function NavbarCommon() {
   const navigation = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("groupId");
     //clearLocalStorage();
     navigation("/login");
   };
