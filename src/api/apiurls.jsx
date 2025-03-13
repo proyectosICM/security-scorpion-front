@@ -1,4 +1,4 @@
-export const baseURL = "https://telemetriaperu.com:4015";
+export const baseURL = "https://samloto.com:4015";
 
 export const WEBSOCKET_SERVER = "ws://samloto.com:7094/ws";
 
