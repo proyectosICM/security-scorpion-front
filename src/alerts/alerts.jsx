@@ -34,8 +34,8 @@ export function showUnauthorizedAlert(isGroupDisabled = false) {
  */
 export const showActivationAlert = (device) => {
   Swal.fire({
-    title: `Activando ${device.name}`,
-    text: `IP: ${device.ip}`,
+    title: `Activando ${device.nameDevice}`,
+    text: `IP: ${device.ipLocal}`,
     icon: "success",
     confirmButtonText: "Aceptar",
   });

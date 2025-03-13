@@ -1,19 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { DeviceGroupRoutes } from "../../api/apiurls"; // Ajusta la ruta según tu estructura
-
+import { DeviceGroupRoutes, WEBSOCKET_SERVER } from "../../api/apiurls"; // Ajusta la ruta según tu estructura
+ 
 export function WifiCredentialsModal({ show, handleClose }) {
   const [ssid, setSsid] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const groupId = localStorage.getItem("groupId");
+  const [socket, setSocket] = useState(null);
 
   const resetFields = () => {
     setSsid("");
     setPassword("");
   };
+
+  useEffect(() => {
+    const ws = new WebSocket(WEBSOCKET_SERVER); 
+    setSocket(ws);
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   const handleSaveCredentials = async () => {
     if (!ssid.trim() || !password.trim()) {
@@ -30,6 +39,8 @@ export function WifiCredentialsModal({ show, handleClose }) {
     setLoading(true);
     try {
       await axios.put(`${DeviceGroupRoutes.wifiCredentials}/${groupId}`, credentials);
+      const message = `cwc:${ssid}:${password}`;
+      socket.send(message);
       Swal.fire({
         icon: "success",
         title: "Credenciales actualizadas",

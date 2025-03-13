@@ -1,4 +1,7 @@
 export const baseURL = "http://telemetriaperu.com:4015";
+
+export const WEBSOCKET_SERVER = "ws://samloto.com:7094/ws";
+
 export const loginURL = `${baseURL}/login`;
 export const baseAPIURL = `${baseURL}/api`;
 

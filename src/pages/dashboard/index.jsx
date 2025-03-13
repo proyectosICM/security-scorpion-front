@@ -18,18 +18,6 @@ export function DashboardIndex() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const groupId = localStorage.getItem("groupId");
-  /*
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const groupId = localStorage.getItem("groupId");
-
-    // Si no hay token o groupId, redirigir al login
-    if (!token || !groupId) {
-      navigate("/login");
-      return;
-    }
-  }, []);
-*/
 
   useAuthRedirect();
   useEffect(() => {
