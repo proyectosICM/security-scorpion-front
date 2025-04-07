@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Container, Modal, Form } from "react-bootstrap";
-import { FaCogs, FaKey } from "react-icons/fa";
+import { FaCogs, FaKey, FaPlusCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { NavbarCommon } from "../../common/navbarCommon";
 import { ItemCard } from "./itemCard";
@@ -11,6 +11,7 @@ import { GroupCredentialsModal } from "./groupCredentialsModal";
 import { WifiCredentialsModal } from "./wifiCredentialsModal";
 import { useNavigate } from "react-router-dom";
 import { useAuthRedirect } from "../../hooks/useAuthRedirect";
+import { DeviceCreationModal } from "./deviceCreationModal";
 
 export function DashboardIndex() {
   const [data, setData] = useState([]);
@@ -22,12 +23,7 @@ export function DashboardIndex() {
   useAuthRedirect();
   useEffect(() => {
     axios
-      .get(`${DeviceRoutes.byGroup}/${groupId}`, {
-        headers: {
-          "Content-Type": "application/json", // Especificar tipo de contenido
-          "Custom-Header": "MiValor", // Puedes agregar otros headers si los necesitas
-        },
-      })
+      .get(`${DeviceRoutes.byGroup}/${groupId}`, {})
       .then((response) => {
         setData(response.data); // Guardamos los datos obtenidos
       })
@@ -41,6 +37,7 @@ export function DashboardIndex() {
 
   const [showNetworkModal, setShowNetworkModal] = useState(false);
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
+  const [showDeviceCreationModal, setShowDeviceCreationModal] = useState(false);
 
   return (
     <div>
@@ -57,6 +54,9 @@ export function DashboardIndex() {
         </ButtonGroup>
         <div style={{ width: "100%" }}>
           <h2>Dispositivos</h2>
+          <Button variant="success" style={{ margin: "20px 0px", width: "100px" }} onClick={() => setShowDeviceCreationModal(true)}>
+            <FaPlusCircle /> Crear
+          </Button>
           <div className="d-flex flex-wrap justify-content-center gap-3">
             {data.length > 0 ? (
               data.map((device) => <ItemCard key={device.id} device={device} setData={setData} />)
@@ -72,6 +72,8 @@ export function DashboardIndex() {
 
       {/* Modal de credenciales */}
       <GroupCredentialsModal show={showCredentialsModal} handleClose={() => setShowCredentialsModal(false)} />
+
+      <DeviceCreationModal show={showDeviceCreationModal} handleClose={() => setShowDeviceCreationModal(false)} />
     </div>
   );
 }

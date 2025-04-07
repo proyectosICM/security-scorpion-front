@@ -67,7 +67,7 @@ export function WifiCredentialsModal({ show, handleClose }) {
       <Modal.Body>
         <Form>
           <Form.Group className="mb-3">
-            <Form.Label>Nuevo Usuario</Form.Label>
+            <Form.Label>Nombre de la nueva red</Form.Label>
             <Form.Control
               type="text"
               value={ssid}

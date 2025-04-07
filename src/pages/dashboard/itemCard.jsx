@@ -5,9 +5,6 @@ import { emptyFieldAlert, showActivationAlert, updateDeviceAlert } from "../../a
 import { DeviceModal } from "./deviceModal";
 import axios from "axios";
 import { DeviceRoutes, WEBSOCKET_SERVER } from "../../api/apiurls";
- 
-
-
 export function ItemCard({ device, setData }) {
   const [showModal, setShowModal] = useState(false);
   const [deviceName, setDeviceName] = useState("");
