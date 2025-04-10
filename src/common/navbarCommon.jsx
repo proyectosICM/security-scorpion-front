@@ -27,7 +27,8 @@ export function NavbarCommon() {
         {/* Centering the navigation links */}
         <Nav className="mx-auto">
           {<Nav.Link onClick={() => navigation("/")}>Panel Principal</Nav.Link>}
-          {<Nav.Link onClick={() => navigation("/create-device")}>Crear un dispositivo</Nav.Link>}
+          {/*<Nav.Link onClick={() => navigation("/create-device")}>Crear un dispositivo</Nav.Link>*/}
+          {<Nav.Link onClick={() => navigation("/manage-groups")}>Administrar Grupos</Nav.Link>}
         </Nav>
 
         {/* Right-aligned logout button */}
