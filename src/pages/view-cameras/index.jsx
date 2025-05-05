@@ -6,10 +6,8 @@ export const ViewCamerasIndex = () => {
   const groupId = localStorage.getItem("groupId");
   
   const cameraSources = [
-    { name: "Camera 1", url: "http://192.168.10.117:554/video" },
-    { name: "Camera 2", url: "http://192.168.10.140:8080/video" },
-    { name: "Camera 3", url: "http://192.168.10.140:8080/video" },
-    { name: "Camera 4", url: "http://192.168.10.140:8080/video" },
+    { name: "Camera 1", url: "rtsp://admin:Dakar*2024@192.168.10.117:554/cam/realmonitor?channel=1&subtype=0" },
+
   ];
 
   return (
