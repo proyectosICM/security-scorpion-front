@@ -34,12 +34,20 @@ export function showUnauthorizedAlert(isGroupDisabled = false) {
  */
 export const showActivationAlert = (device) => {
   Swal.fire({
-    title: `Activando ${device.nameDevice}`,
-    text: `IP: ${device.ipLocal}`,
+    title: `Activado ${device.nameDevice}`,
+    text: `IP: ${device.ipLocal} accionado por 2 min (Desactivacion automatica)`,
     icon: "success",
     confirmButtonText: "Aceptar",
   });
 };
+
+export const showErrorActivationAlert = () => {
+  Swal.fire({
+    icon: "error",
+    title: "No se pudo activar el dispositivo",
+    text: "No se recibió confirmación del dispositivo en 30 segundos.",
+  });
+}
 
 export const emptyFieldAlert = () => {
   Swal.fire({

@@ -59,7 +59,7 @@ export function DashboardIndex() {
             ) : (
               !isLoading && <p>No hay dispositivos disponibles.</p>
             )}
-          </div>
+          </div> 
         </div>
       </Container>
 

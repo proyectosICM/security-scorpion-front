@@ -1,23 +1,39 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import { createDevice } from "../../api/services/deviceService";
 
 export function DeviceCreationModal({ show, handleClose }) {
   const [nameDevice, setNameDevice] = useState("");
   const [loading, setLoading] = useState(false);
-  const [deviceType, setDeviceType] = useState("ACTIVADOR");
+  const [deviceType, setDeviceType] = useState("ACTUATOR");
 
   const resetFields = () => {
     setNameDevice("");
-    setDeviceType("ACTIVADOR");
+    setDeviceType("ACTUATOR");
   };
 
   const handleSave = () => {
     // Aquí puedes agregar la lógica para guardar el dispositivo
-    console.log("Guardando dispositivo:", { nameDevice, deviceType });
-    handleClose();
+
+    const request = {
+      nameDevice: nameDevice,
+      ipLocal: "192.168.0.0",
+      deviceGroupModel: {
+        id: localStorage.getItem("groupId"),
+      },
+      type: deviceType,
+    };
+
+    createDevice(request, {
+      onSuccess: () => {},
+      onError: (error) => {
+        console.error("Error al crear dispositivo:", error);
+        // Aquí podrías mostrar un toast o alerta
+      },
+    });
     resetFields();
+    handleClose();
   };
-  
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -38,8 +54,8 @@ export function DeviceCreationModal({ show, handleClose }) {
           <Form.Group className="mb-3">
             <Form.Label>Tipo de dispositivo</Form.Label>
             <Form.Select value={deviceType} onChange={(e) => setDeviceType(e.target.value)} disabled={loading}>
-              <option value="ACTIVADOR">ACTIVADOR</option>
-              <option value="ALARMA">ALARMA</option>
+              <option value="ACTUATOR">ACTIVADOR</option>
+              <option value="ALARM">ALARMA</option>
             </Form.Select>
           </Form.Group>
         </Form>

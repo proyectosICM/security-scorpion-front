@@ -45,8 +45,10 @@ export const getDevicesByGroup = async (groupId) => {
 };
 
 export const createDevice = async (deviceData) => {
+  console.log("Creating device with data:", deviceData);
   try {
     const response = await api.post(endpoint, deviceData);
+    console.log(response.status)
     return response.data;
   } catch (error) {
     console.error("Error creating device:", error);

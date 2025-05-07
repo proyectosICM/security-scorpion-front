@@ -26,12 +26,12 @@ export const useGetDevicesByGroup = (groupId) => {
   return useQuery({
     queryKey: ["devices", groupId],
     queryFn: () => deviceService.getDevicesByGroup(groupId),
-  });
+  }); 
 };
 
 export const useCreateDevice = () => {
   const queryClient = useQueryClient();
-  return useMutation({
+  return useMutation({ 
     mutationFn: deviceService.createDevice,
     onSuccess: () => {
       queryClient.invalidateQueries(["devices"]);
