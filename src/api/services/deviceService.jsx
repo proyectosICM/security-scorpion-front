@@ -56,9 +56,11 @@ export const createDevice = async (deviceData) => {
   }
 };
 
-export const updateDevice = async (deviceId, deviceData) => {
+export const updateDevice = async (deviceData) => {
+
+console.log("Updating device with ID:", "and data:", deviceData);
   try {
-    const response = await api.put(`${endpoint}/${deviceId}`, deviceData);
+    const response = await api.put(`${endpoint}/${deviceData.id}`, deviceData);
     return response.data;
   } catch (error) {
     console.error("Error updating device:", error);

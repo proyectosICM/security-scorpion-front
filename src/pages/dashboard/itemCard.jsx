@@ -6,6 +6,8 @@ import { DeviceModal } from "./deviceModal";
 import axios from "axios";
 import { DeviceRoutes, WEBSOCKET_SERVER } from "../../api/apiurls";
 import Swal from "sweetalert2";
+import { useUpdateDevice } from "../../api/hooks/useDevice";
+
 export function ItemCard({ device, setData }) {
   const [showModal, setShowModal] = useState(false);
   const [deviceName, setDeviceName] = useState("");
@@ -13,6 +15,8 @@ export function ItemCard({ device, setData }) {
   const [ws, setWs] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Nuevo estado para manejar la carga
   const [deviceType, setDeviceType] = useState("ACTUATOR");
+
+  const updateDeviceMutation = useUpdateDevice();
 
   useEffect(() => {
     const socket = new WebSocket(WEBSOCKET_SERVER);
@@ -69,6 +73,7 @@ export function ItemCard({ device, setData }) {
     }
 
     const request = {
+      id: device.id,
       nameDevice: deviceName,
       ipLocal: deviceIP,
       deviceGroupModel: {
@@ -77,11 +82,16 @@ export function ItemCard({ device, setData }) {
       type: deviceType,
     };
 
-    await axios.put(`${DeviceRoutes.base}/${device.id}`, request);
-    //setData((prevData) => prevData.map((item) => (item.id === device.id ? { ...item, ...request } : item)));
-
-    updateDeviceAlert(deviceName, deviceIP);
-    setShowModal(false);
+    updateDeviceMutation.mutate(request, {
+      onSuccess: () => {
+        updateDeviceAlert(deviceName, deviceIP);
+        setShowModal(false);
+      },
+      onError: (error) => {
+        console.error("Error al actualizar dispositivo", error);
+        Swal.fire("Error", "No se pudo actualizar el dispositivo", "error");
+      },
+    });
   };
 
   return (
