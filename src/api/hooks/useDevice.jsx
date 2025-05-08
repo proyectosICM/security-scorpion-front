@@ -8,7 +8,7 @@ export const useGetAllDevices = () => {
   });
 };
 
-export const useGetAllDevicesPaged = (page, size) => {
+export const useGetAllDevicesPaged = (page, size) => { 
   return useQuery({
     queryKey: ["devices", page, size],
     queryFn: () => deviceService.getAllDevicesPaged(page, size),

@@ -17,6 +17,8 @@ export const ManageGroupsIndex = () => {
     role: "USER",
   });
 
+  const [error, setError] = useState("");
+
   const { data, isLoading, isError } = useGetAllGroupsPaged(page, size);
   const createGroupMutation = useCreateGroup();
   const updateGroupMutation = useUpdateGroup();
@@ -32,6 +34,10 @@ export const ManageGroupsIndex = () => {
   };
 
   const handleCreateGroup = () => {
+    if (newGroup.password.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
     createGroupMutation.mutate(newGroup, {
       onSuccess: () => {
         setShowCreateModal(false);
@@ -46,17 +52,24 @@ export const ManageGroupsIndex = () => {
   };
 
   const handleEditGroup = () => {
-    updateGroupMutation.mutate({ ...groupToEdit, ...newGroup }, {
-      onSuccess: () => {
-        setShowEditModal(false);
-        setNewGroup({
-          nameGroup: "",
-          username: "",
-          password: "",
-          role: "USER",
-        });
-      },
-    });
+    if (newGroup.password.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
+    updateGroupMutation.mutate(
+      { ...groupToEdit, ...newGroup },
+      {
+        onSuccess: () => {
+          setShowEditModal(false);
+          setNewGroup({
+            nameGroup: "",
+            username: "",
+            password: "",
+            role: "USER",
+          });
+        },
+      }
+    );
   };
 
   const handleEditClick = (group) => {
@@ -64,7 +77,7 @@ export const ManageGroupsIndex = () => {
     setNewGroup({
       nameGroup: group.nameGroup,
       username: group.username,
-      password: "",
+      password: group.password,
       role: group.role, // Role no puede ser modificado
     });
     setShowEditModal(true);
@@ -135,31 +148,17 @@ export const ManageGroupsIndex = () => {
           <Form>
             <Form.Group controlId="nameGroup" className="mb-3">
               <Form.Label>Nombre del grupo</Form.Label>
-              <Form.Control
-                type="text"
-                name="nameGroup"
-                value={newGroup.nameGroup}
-                onChange={handleInputChange}
-              />
+              <Form.Control type="text" name="nameGroup" value={newGroup.nameGroup} onChange={handleInputChange} />
             </Form.Group>
             <Form.Group controlId="username" className="mb-3">
               <Form.Label>Usuario</Form.Label>
-              <Form.Control
-                type="text"
-                name="username"
-                value={newGroup.username}
-                onChange={handleInputChange}
-              />
+              <Form.Control type="text" name="username" value={newGroup.username} onChange={handleInputChange} />
             </Form.Group>
             <Form.Group controlId="password" className="mb-3">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={newGroup.password}
-                onChange={handleInputChange}
-              />
+              <Form.Control type="password" name="password" value={newGroup.password} onChange={handleInputChange} />
             </Form.Group>
+            {error && <p className="text-danger">{error}</p>} {/* Mostrar el mensaje de error */}
             <Form.Group controlId="role" className="mb-3">
               <Form.Label>Rol</Form.Label>
               <Form.Select name="role" value={newGroup.role} onChange={handleInputChange}>
@@ -170,7 +169,9 @@ export const ManageGroupsIndex = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowCreateModal(false)}>Cancelar</Button>
+          <Button variant="secondary" onClick={() => setShowCreateModal(false)}>
+            Cancelar
+          </Button>
           <Button variant="primary" onClick={handleCreateGroup} disabled={createGroupMutation.isLoading}>
             {createGroupMutation.isLoading ? "Guardando..." : "Guardar"}
           </Button>
@@ -186,48 +187,35 @@ export const ManageGroupsIndex = () => {
           <Form>
             <Form.Group controlId="nameGroup" className="mb-3">
               <Form.Label>Nombre del grupo</Form.Label>
-              <Form.Control
-                type="text"
-                name="nameGroup"
-                value={newGroup.nameGroup}
-                onChange={handleInputChange}
-              />
+              <Form.Control type="text" name="nameGroup" value={newGroup.nameGroup} onChange={handleInputChange} />
             </Form.Group>
             <Form.Group controlId="username" className="mb-3">
               <Form.Label>Usuario</Form.Label>
-              <Form.Control
-                type="text"
-                name="username"
-                value={newGroup.username}
-                onChange={handleInputChange}
-              />
+              <Form.Control type="text" name="username" value={newGroup.username} onChange={handleInputChange} />
             </Form.Group>
             <Form.Group controlId="password" className="mb-3">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={newGroup.password}
-                onChange={handleInputChange}
-              />
+              <Form.Control type="password" name="password" value={newGroup.password} onChange={handleInputChange} />
             </Form.Group>
+            {error && <p className="text-danger">{error}</p>} {/* Mostrar el mensaje de error */}
             <Form.Group controlId="role" className="mb-3">
               <Form.Label>Rol</Form.Label>
-              <Form.Control
-                type="text"
-                value={newGroup.role}
-                disabled
-              />
+              <Form.Select name="role" value={newGroup.role} onChange={handleInputChange}>
+                <option value="USER">USER</option>
+                <option value="ADMINISTRATOR">ADMINISTRATOR</option>
+              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>Cancelar</Button>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Cancelar
+          </Button>
           <Button variant="primary" onClick={handleEditGroup} disabled={updateGroupMutation.isLoading}>
             {updateGroupMutation.isLoading ? "Guardando..." : "Guardar cambios"}
           </Button>
         </Modal.Footer>
-      </Modal> 
+      </Modal>
     </div>
   );
 };

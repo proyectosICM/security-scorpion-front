@@ -55,9 +55,12 @@ export const createGroup = async (groupData) => {
   }
 };
 
-export const updateGroup = async (groupId, groupData) => {
+export const updateGroup = async (groupData) => {
+
+  console.log(groupData);
+  console.log(`${groupData.id}`)
   try {
-    const response = await api.put(`${endpoint}/${groupId}`, groupData);
+    const response = await api.put(`${endpoint}/${groupData.id}`, groupData);
     return response.data;
   } catch (error) {
     console.error("Error updating group:", error);

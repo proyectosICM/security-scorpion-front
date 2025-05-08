@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { createDevice } from "../../api/services/deviceService";
+import { useCreateDevice } from "../../api/hooks/useDevice";
 
 export function DeviceCreationModal({ show, handleClose }) {
   const [nameDevice, setNameDevice] = useState("");
   const [loading, setLoading] = useState(false);
   const [deviceType, setDeviceType] = useState("ACTUATOR");
-
+  const createDeviceMutation = useCreateDevice();
   const resetFields = () => {
     setNameDevice("");
     setDeviceType("ACTUATOR");
@@ -24,7 +24,7 @@ export function DeviceCreationModal({ show, handleClose }) {
       type: deviceType,
     };
 
-    createDevice(request, {
+    createDeviceMutation.mutate(request, {
       onSuccess: () => {},
       onError: (error) => {
         console.error("Error al crear dispositivo:", error);

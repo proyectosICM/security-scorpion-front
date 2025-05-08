@@ -32,6 +32,7 @@ export function Login() {
         console.log("Usuario autenticado:", response.data);
         localStorage.setItem("token", "fake-jwt-token"); // Aquí deberías almacenar un token real si lo devuelves desde el backend
         localStorage.setItem("groupId", response.data.id);
+        localStorage.setItem("role", response.data.role); // Almacena el nombre de usuario si es necesario
         navigate("/dashboard");
       }
     } catch (error) {

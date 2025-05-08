@@ -38,7 +38,7 @@ export function DashboardIndex() {
         </ButtonGroup>
 
         <div style={{ width: "100%" }}>
-          <h2>Dispositivos</h2>
+          <h2>Dispositivos</h2> 
 
           <Button
             variant="success"
